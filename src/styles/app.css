@@ -1922,8 +1922,9 @@ canvas {
 
   .camera-topbar a,
   .camera-topbar button {
-    min-height: 42px;
-    padding: 0 10px;
+    min-height: 40px;
+    padding: 0 8px;
+    font-size: 13px;
     white-space: nowrap;
   }
 
@@ -1931,7 +1932,8 @@ canvas {
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
-    padding: 8px 10px;
+    padding: 7px 8px;
+    font-size: 14px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -1949,16 +1951,15 @@ canvas {
     position: absolute;
     right: 0;
     top: 50%;
-    min-width: 44px;
-    min-height: 82px;
-    padding: 10px 8px;
+    min-width: 58px;
+    min-height: 46px;
+    padding: 0 10px;
     border: 1px solid rgba(255, 245, 223, 0.28);
     border-right: 0;
-    border-radius: 14px 0 0 14px;
+    border-radius: 999px 0 0 999px;
     background: rgba(140, 21, 21, 0.94);
     color: #fff;
     font-weight: 900;
-    writing-mode: vertical-rl;
     transform: translateY(-50%);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
   }
