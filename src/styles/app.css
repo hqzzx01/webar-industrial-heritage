@@ -2337,10 +2337,10 @@ canvas {
   }
 
   .ar-story-page .ar-point-model {
-    left: 42%;
+    left: 37%;
     bottom: calc(62px + env(safe-area-inset-bottom));
-    width: min(76vw, 340px);
-    min-width: 230px;
+    width: min(64vw, 300px);
+    min-width: 220px;
   }
 
   .ar-story-page .ar-point-model__stage {
@@ -2513,7 +2513,8 @@ canvas {
   }
 
   .mobile-camera-panel__toggle {
-    top: 54%;
+    top: max(56px, calc(env(safe-area-inset-top) + 48px));
+    transform: none;
   }
 
   .mobile-camera-panel__drawer {
