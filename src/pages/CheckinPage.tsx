@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CheckinCamera } from '../components/CheckinCamera';
+import { CameraBackButton } from '../components/CameraBackButton';
 import { getMainFlowNumber, getPointById } from '../data/points';
 import { useExperienceStore } from '../store/useExperienceStore';
 
@@ -18,6 +19,9 @@ export function CheckinPage() {
 
   return (
     <section className="camera-page checkin-page">
+      <div className="camera-back-floating">
+        <CameraBackButton fallback={`/point/${point.id}`}>返回详情</CameraBackButton>
+      </div>
       <CheckinCamera pointCode={`${getMainFlowNumber(point.id) ?? point.code}`} pointName={point.title} onSave={save} />
     </section>
   );

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ARCameraView } from '../components/ARCameraView';
+import { CameraBackButton } from '../components/CameraBackButton';
 import { FactoryInteriorModel } from '../components/FactoryInteriorModel';
+import { MobileCameraPanel } from '../components/MobileCameraPanel';
 
 const internalFlow = [
   ['6', '厂房入口', '进入内部体验起点'],
@@ -15,7 +17,7 @@ export function FactoryInteriorPage() {
     <section className="camera-page factory-page">
       <ARCameraView label="厂房内部结构 6-10">
         <header className="camera-topbar">
-          <Link to="/scan">返回扫描</Link>
+          <CameraBackButton fallback="/scan">返回扫描</CameraBackButton>
           <span>厂房内部 6-10</span>
           <Link to="/map">地图</Link>
         </header>
@@ -34,6 +36,16 @@ export function FactoryInteriorPage() {
           </div>
         </aside>
         <FactoryInteriorModel />
+        <MobileCameraPanel title="厂房内部 6-10">
+          <p>选择内部点位，查看厂房入口、生产线、设备、工艺和人物记忆。</p>
+          <div className="mobile-camera-panel__links">
+            {internalFlow.map(([number, title]) => (
+              <Link to={`/ar-story/b${Number(number) - 5}`} key={number}>
+                <b>{number}</b><span>{title}</span>
+              </Link>
+            ))}
+          </div>
+        </MobileCameraPanel>
       </ARCameraView>
     </section>
   );

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ARNpcModel } from '../components/ARNpcModel';
 import { ARCameraView } from '../components/ARCameraView';
+import { CameraBackButton } from '../components/CameraBackButton';
+import { MobileCameraPanel } from '../components/MobileCameraPanel';
 import { points } from '../data/points';
 import { useExperienceStore } from '../store/useExperienceStore';
 
@@ -12,7 +14,7 @@ export function ARRecognitionPage() {
     <section className="camera-page recognition-page">
       <ARCameraView label="白模识别成功，可点击点位标签">
         <header className="camera-topbar">
-          <Link to="/scan">返回扫描</Link>
+          <CameraBackButton fallback="/scan">返回扫描</CameraBackButton>
           <span>白模识别成功</span>
           <Link to="/map">地图</Link>
         </header>
@@ -39,6 +41,16 @@ export function ARRecognitionPage() {
           <Link className="secondary-action" to="/map">查看全部点位</Link>
           <Link className="primary-action" to="/map">继续导览</Link>
         </div>
+        <MobileCameraPanel title="园区外部总览">
+          <p>点击画面中的编号进入点位，也可以从这里选择主流程 1-5。</p>
+          <div className="mobile-camera-panel__links">
+            {externalPoints.map((point, index) => (
+              <Link to={`/ar-story/${point.id}`} onClick={() => visitPoint(point.id)} key={point.id}>
+                <b>{index + 1}</b><span>{point.title}</span>
+              </Link>
+            ))}
+          </div>
+        </MobileCameraPanel>
       </ARCameraView>
     </section>
   );
