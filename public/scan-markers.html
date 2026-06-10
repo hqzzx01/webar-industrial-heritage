@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>炉光记忆 AR 主点位识别图</title>
+    <style>
+      :root {
+        color: #1f2937;
+        background: #f8fafc;
+        font-family: "Source Han Sans SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 24px;
+      }
+
+      header,
+      main,
+      section {
+        max-width: 1180px;
+        margin-inline: auto;
+      }
+
+      header {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 46px);
+      }
+
+      p {
+        margin: 0;
+        color: #475569;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 16px;
+      }
+
+      article,
+      section {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      article {
+        display: grid;
+        grid-template-columns: 116px minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        padding: 14px;
+        break-inside: avoid;
+      }
+
+      img {
+        width: 116px;
+        aspect-ratio: 1 / 1;
+        border: 1px solid #111827;
+        background: #fff;
+        object-fit: contain;
+      }
+
+      h2 {
+        margin: 0 0 6px;
+        color: #8c1515;
+        font-size: 20px;
+        line-height: 1.2;
+      }
+
+      span {
+        display: block;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      section {
+        margin-top: 18px;
+        padding: 16px;
+      }
+
+      li {
+        margin: 8px 0;
+        color: #334155;
+        line-height: 1.55;
+      }
+
+      @media (max-width: 900px) {
+        main { grid-template-columns: 1fr; }
+      }
+
+      @media print {
+        body {
+          padding: 10mm;
+          background: #fff;
+        }
+
+        main {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8mm;
+        }
+
+        article {
+          border-color: #111827;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>炉光记忆 AR 主点位识别图</h1>
+      <p>当前只启用主流程识别：1-5 每个外部点位独立扫描，厂房内部 6-10 使用一个内部总览扫描点。A1-A5 / B1-B5 辅助扫描点暂不启用。</p>
+    </header>
+    <main>
+      <article>
+        <img src="/assets/marker/pattern-overview-simple.png" alt="1 园区入口识别图" />
+        <div>
+          <h2>1 园区入口</h2>
+          <span>扫描后进入园区入口 AR 展示。</span>
+        </div>
+      </article>
+      <article>
+        <img src="/assets/marker/pattern-furnace-simple.png" alt="2 建厂初期识别图" />
+        <div>
+          <h2>2 建厂初期</h2>
+          <span>扫描后进入建厂初期 AR 展示。</span>
+        </div>
+      </article>
+      <article>
+        <img src="/assets/marker/pattern-pipe-simple.png" alt="3 园区格局识别图" />
+        <div>
+          <h2>3 园区格局</h2>
+          <span>扫描后进入园区格局 AR 展示。</span>
+        </div>
+      </article>
+      <article>
+        <img src="/assets/marker/pattern-memory-simple.png" alt="4 技术革新识别图" />
+        <div>
+          <h2>4 技术革新</h2>
+          <span>扫描后进入技术革新 AR 展示。</span>
+        </div>
+      </article>
+      <article>
+        <img src="/assets/marker/official/pattern-hiro.png" alt="5 停产与转型识别图" />
+        <div>
+          <h2>5 停产与转型</h2>
+          <span>扫描后进入停产与转型 AR 展示。</span>
+        </div>
+      </article>
+      <article>
+        <img src="/assets/marker/other/overview-marker.png" alt="厂房内部结构识别图" />
+        <div>
+          <h2>厂房内部 6-10</h2>
+          <span>建议贴在白膜内部厂房区域，扫描后进入厂房内部结构总览。</span>
+        </div>
+      </article>
+    </main>
+    <section>
+      <h2>使用方式</h2>
+      <ol>
+        <li>进入项目首页，点击“开始 AR 扫描”。</li>
+        <li>园区外部阶段，分别扫描 1-5 对应识别图。</li>
+        <li>进入厂房后，扫描“厂房内部 6-10”识别图，打开厂房模型和 6-10 标注。</li>
+        <li>后续如需拓展照片、档案、知识问答，再增加 A/B 辅助扫描点。</li>
+      </ol>
+    </section>
+  </body>
+</html>

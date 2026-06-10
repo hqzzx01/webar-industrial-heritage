@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>炉光记忆 Marker 生成指南</title>
+    <style>
+      :root {
+        font-family: "STXingkai", "KaiTi", "Kaiti SC", serif;
+        color: #fff5df;
+        background: #070605;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 28px;
+        background:
+          linear-gradient(90deg, rgba(7, 6, 5, 0.96), rgba(7, 6, 5, 0.78)),
+          url("/assets/backgrounds/landing-model.jpg") center / cover fixed;
+      }
+
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 52px;
+      }
+
+      p,
+      li {
+        font-size: 22px;
+        line-height: 1.55;
+      }
+
+      a,
+      button {
+        color: #fff5df;
+      }
+
+      .primary {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0 22px;
+        padding: 0 20px;
+        border: 1px solid rgba(255, 180, 94, 0.5);
+        border-radius: 8px;
+        background: #8c2017;
+        font-size: 22px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(160px, 1fr));
+        gap: 14px;
+      }
+
+      article,
+      section {
+        border: 1px solid rgba(255, 180, 94, 0.28);
+        border-radius: 8px;
+        background: rgba(8, 7, 6, 0.78);
+      }
+
+      article {
+        padding: 12px;
+      }
+
+      article img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border: 1px solid rgba(255, 245, 223, 0.22);
+        background: #fff;
+        object-fit: contain;
+      }
+
+      article h2 {
+        margin: 8px 0 6px;
+        font-size: 25px;
+      }
+
+      article a {
+        font-size: 19px;
+      }
+
+      section {
+        margin-top: 18px;
+        padding: 18px 22px;
+      }
+
+      code {
+        padding: 2px 6px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.08);
+        font-family: Consolas, monospace;
+        font-size: 0.8em;
+      }
+
+      @media (max-width: 820px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Marker 生成指南</h1>
+      <p>先下载下面任意一张“内图”，再打开 AR.js 官方 generator 上传内图，生成新的 marker 图片和 .patt 文件。</p>
+      <a class="primary" href="/sdk_other/AR.js-master/three.js/examples/marker-training/examples/generator.html" target="_blank" rel="noreferrer">打开 AR.js 官方 Generator</a>
+
+      <div class="grid">
+        <article>
+          <img src="/assets/marker/inner/furnace-simple.svg" alt="炉口内图" />
+          <h2>炉口</h2>
+          <a href="/assets/marker/inner/furnace-simple.svg" download>下载内图</a>
+        </article>
+        <article>
+          <img src="/assets/marker/inner/pipe-simple.svg" alt="管道内图" />
+          <h2>管道</h2>
+          <a href="/assets/marker/inner/pipe-simple.svg" download>下载内图</a>
+        </article>
+        <article>
+          <img src="/assets/marker/inner/memory-simple.svg" alt="记忆内图" />
+          <h2>记忆</h2>
+          <a href="/assets/marker/inner/memory-simple.svg" download>下载内图</a>
+        </article>
+        <article>
+          <img src="/assets/marker/inner/overview-simple.svg" alt="总览内图" />
+          <h2>总览</h2>
+          <a href="/assets/marker/inner/overview-simple.svg" download>下载内图</a>
+        </article>
+      </div>
+
+      <section>
+        <h2>生成步骤</h2>
+        <ol>
+          <li>打开官方 Generator。</li>
+          <li>点击 <code>Upload</code>，选择一张内图，不要上传完整 marker 成品图。</li>
+          <li><code>Pattern Ratio</code> 保持 <code>0.50</code>，这是 AR.js 默认值，先不要改。</li>
+          <li>点击 <code>Download Marker</code> 下载 .patt 文件。</li>
+          <li>点击 <code>Download Image</code> 下载实际要打印或展示的 marker 图。</li>
+          <li>把 .patt 放到 <code>public/assets/marker/</code>，代码里对应替换路径。</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>为什么要简单</h2>
+        <p>AR.js marker tracking 不是扫二维码。它需要识别清晰的黑色外框，再匹配内部图案。内图越复杂、越像二维码、越对称，越容易识别失败。先用这些简单黑白图跑通，再逐步美化。</p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+*.glb filter=lfs diff=lfs merge=lfs -text
+public/assets/3D/*.glb filter=lfs diff=lfs merge=lfs -text

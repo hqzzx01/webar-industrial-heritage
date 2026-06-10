@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR.js 官方测试标识</title>
+    <style>
+      :root {
+        font-family: "STXingkai", "KaiTi", "Kaiti SC", serif;
+        color: #1b1208;
+        background: #f7f1e7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 28px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 46px;
+      }
+
+      p {
+        margin: 0 0 24px;
+        font-size: 24px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 28px;
+      }
+
+      article {
+        padding: 22px;
+        border: 2px solid #8c2017;
+        border-radius: 8px;
+        background: #fffaf0;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 34px;
+      }
+
+      img {
+        display: block;
+        width: min(100%, 520px);
+        margin: 0 auto;
+        border: 1px solid #1b1208;
+        background: #fff;
+      }
+
+      @media print {
+        body {
+          padding: 12mm;
+        }
+
+        .grid {
+          gap: 14mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AR.js 官方测试标识</h1>
+    <p>用手机打开 WebAR 页面，用摄像头扫描下面任意一张标识。</p>
+    <section class="grid">
+      <article>
+        <h2>Hiro</h2>
+        <img src="/assets/marker/official/pattern-hiro.png" alt="Hiro marker" />
+      </article>
+      <article>
+        <h2>Kanji</h2>
+        <img src="/assets/marker/official/pattern-kanji.png" alt="Kanji marker" />
+      </article>
+    </section>
+  </body>
+</html>

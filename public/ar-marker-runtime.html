@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <title>炉光记忆 AR Marker Runtime</title>
+    <script src="/vendor/aframe/aframe-v1.6.0.min.js"></script>
+    <script src="/vendor/arjs/aframe-ar.js"></script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .runtime-status {
+        position: fixed;
+        left: 12px;
+        bottom: 12px;
+        z-index: 20;
+        max-width: min(420px, calc(100vw - 24px));
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 245, 223, 0.2);
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.58);
+        color: #fff4df;
+        font: 600 12px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      a-scene {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script>
+      const MARKERS = [
+        ['marker-flow-01', '/ar-story/a1', '1 园区入口', '园区外部主流程', '/assets/marker/pattern-overview-simple.patt'],
+        ['marker-flow-02', '/ar-story/a2', '2 建厂初期', '园区外部主流程', '/assets/marker/pattern-furnace-simple.patt'],
+        ['marker-flow-03', '/ar-story/a3', '3 园区格局', '园区外部主流程', '/assets/marker/pattern-pipe-simple.patt'],
+        ['marker-flow-04', '/ar-story/a4', '4 技术革新', '园区外部主流程', '/assets/marker/pattern-memory-simple.patt'],
+        ['marker-flow-05', '/ar-story/a5', '5 停产与转型', '园区外部主流程', '/assets/marker/official/pattern-hiro.patt'],
+        ['marker-factory-interior', '/ar-factory-interior', '厂房内部结构', '厂房内部 6-10 总览', '/assets/marker/other/overview-marker.patt']
+      ];
+
+      let locked = false;
+
+      function post(data) {
+        window.parent.postMessage(data, window.location.origin);
+      }
+
+      function setStatus(text) {
+        const status = document.querySelector('#runtime-status');
+        if (status) status.textContent = text;
+      }
+
+      window.addEventListener('camera-init', () => {
+        setStatus('摄像头已启动，正在识别点位 Marker');
+        post({ type: 'ready', message: '摄像头已启动，正在识别点位 Marker' });
+      });
+
+      window.addEventListener('camera-error', () => {
+        setStatus('摄像头启动失败，请检查权限、HTTPS 或 localhost 环境');
+        post({ type: 'error', message: '摄像头启动失败，请检查权限、HTTPS 或 localhost 环境' });
+      });
+
+      AFRAME.registerComponent('webar-marker-router', {
+        init() {
+          const marker = this.el;
+          marker.addEventListener('markerFound', () => {
+            if (locked) return;
+            locked = true;
+            const targetRoute = marker.getAttribute('data-target-route');
+            const title = marker.getAttribute('data-title');
+            const subtitle = marker.getAttribute('data-subtitle');
+            const markerId = marker.getAttribute('id');
+            setStatus(`识别成功：${title} ${subtitle}`);
+            post({ type: 'found', targetRoute, title, subtitle, markerId });
+          });
+        }
+      });
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const scene = document.querySelector('a-scene');
+        MARKERS.forEach(([markerId, targetRoute, title, subtitle, patternUrl]) => {
+          const marker = document.createElement('a-marker');
+          marker.setAttribute('id', markerId);
+          marker.setAttribute('type', 'pattern');
+          marker.setAttribute('url', patternUrl);
+          marker.setAttribute('smooth', 'true');
+          marker.setAttribute('smoothCount', '5');
+          marker.setAttribute('smoothTolerance', '0.01');
+          marker.setAttribute('smoothThreshold', '2');
+          marker.setAttribute('data-target-route', targetRoute);
+          marker.setAttribute('data-title', title);
+          marker.setAttribute('data-subtitle', subtitle);
+          marker.setAttribute('webar-marker-router', '');
+
+          const preview = document.createElement('a-box');
+          preview.setAttribute('position', '0 0.35 0');
+          preview.setAttribute('scale', '0.55 0.55 0.55');
+          preview.setAttribute('material', 'color: #f97316; opacity: 0.72; transparent: true;');
+          preview.setAttribute('animation', 'property: rotation; to: 0 360 0; dur: 1600; easing: linear; loop: true');
+          marker.appendChild(preview);
+          scene.appendChild(marker);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="runtime-status" class="runtime-status">等待摄像头权限...</div>
+    <a-scene
+      embedded
+      renderer="precision: medium; antialias: false; logarithmicDepthBuffer: true;"
+      vr-mode-ui="enabled: false"
+      arjs="sourceType: webcam; trackingMethod: best; detectionMode: mono; cameraParametersUrl: /vendor/data/data/camera_para.dat; debugUIEnabled: false;"
+    >
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
