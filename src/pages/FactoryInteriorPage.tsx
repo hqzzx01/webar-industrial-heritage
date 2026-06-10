@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ARCameraView } from '../components/ARCameraView';
 import { CameraBackButton } from '../components/CameraBackButton';
+import { ARNpcModel } from '../components/ARNpcModel';
 import { FactoryInteriorModel } from '../components/FactoryInteriorModel';
 import { MobileCameraPanel } from '../components/MobileCameraPanel';
 
@@ -36,6 +37,11 @@ export function FactoryInteriorPage() {
           </div>
         </aside>
         <FactoryInteriorModel />
+        <ARNpcModel
+          label="厂房内部 3D NPC 导览员"
+          dialogueTitle="厂房内部 6-10"
+          dialogue="这里是厂房内部总览。请依次选择 6-10 点位，了解厂房入口、生产线、设备结构、工艺流程和人物记忆。"
+        />
         <MobileCameraPanel title="厂房内部 6-10">
           <p>选择内部点位，查看厂房入口、生产线、设备、工艺和人物记忆。</p>
           <div className="mobile-camera-panel__links">

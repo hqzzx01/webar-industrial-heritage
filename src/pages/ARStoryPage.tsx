@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ARNpcModel } from '../components/ARNpcModel';
 import { ARPointModel } from '../components/ARPointModel';
@@ -10,12 +11,30 @@ import { storyLayers } from '../data/stories';
 export function ARStoryPage() {
   const { id } = useParams();
   const point = getPointById(id);
+  const [activeLayerId, setActiveLayerId] = useState(storyLayers[0].id);
 
   if (!point) {
     return <section className="page"><h1>点位不存在</h1><Link to="/map">返回地图</Link></section>;
   }
   const flowNumber = getMainFlowNumber(point.id);
   const displayCode = flowNumber ? `${flowNumber}` : point.code;
+  const activeLayer = storyLayers.find((layer) => layer.id === activeLayerId) ?? storyLayers[0];
+
+  const renderLayerButtons = () => (
+    <div className="layer-toggles">
+      {storyLayers.map((layer) => (
+        <button
+          type="button"
+          className={activeLayer.id === layer.id ? 'is-active' : ''}
+          aria-pressed={activeLayer.id === layer.id}
+          onClick={() => setActiveLayerId(layer.id)}
+          key={layer.id}
+        >
+          {layer.label}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <section className="camera-page ar-story-page">
@@ -33,9 +52,8 @@ export function ARStoryPage() {
           <span>{point.area === 'external' ? '园区外部点位' : '厂房内部点位'}</span>
           <h1>{point.title}</h1>
           <p>{point.fullDesc}</p>
-          <div className="layer-toggles">
-            {storyLayers.map((layer) => <button type="button" key={layer.id}>{layer.label}</button>)}
-          </div>
+          {renderLayerButtons()}
+          <p className="layer-description" aria-live="polite">{activeLayer.description}</p>
         </aside>
         <ARPointModel
           modelUrl={point.model}
@@ -44,15 +62,18 @@ export function ARStoryPage() {
           note={point.modelNote ?? point.processDesc}
           tags={point.tags}
         />
-        <ARNpcModel label={`${displayCode} ${point.title} 的 3D NPC 导览员`} />
+        <ARNpcModel
+          label={`${displayCode} ${point.title} 的 3D NPC 导览员`}
+          dialogueTitle={`${displayCode} ${point.title}`}
+          dialogue={`${point.fullDesc} ${point.processDesc}`}
+        />
         <MobileCameraPanel title={`${displayCode} ${point.title}`}>
           <span className="mobile-camera-panel__kicker">{point.area === 'external' ? '园区外部点位' : '厂房内部点位'}</span>
           <p>{point.fullDesc}</p>
           <h2>模型说明</h2>
           <p>{point.modelNote ?? point.processDesc}</p>
-          <div className="layer-toggles">
-            {storyLayers.map((layer) => <button type="button" key={layer.id}>{layer.label}</button>)}
-          </div>
+          {renderLayerButtons()}
+          <p className="layer-description" aria-live="polite">{activeLayer.description}</p>
         </MobileCameraPanel>
       </ARCameraView>
     </section>

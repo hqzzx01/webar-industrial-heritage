@@ -1,18 +1,36 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type * as Three from 'three';
 
 type Props = {
   label?: string;
   speaking?: boolean;
+  dialogueTitle?: string;
+  dialogue?: string;
 };
 
 const NPC_MODEL_URL = '/assets/3D/renwu.glb';
 const NPC_FALLBACK_IMAGE = '/assets/images/npc/explain.png';
 
-export function ARNpcModel({ label = 'AI 导览员已进入 3D 模式', speaking = true }: Props) {
+export function ARNpcModel({
+  label = 'AI 导览员已进入 3D 模式',
+  speaking = true,
+  dialogueTitle = '3D 导览员',
+  dialogue = '点击画面中的点位或打开内容面板，我会继续为你讲解工业遗产故事。'
+}: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [dialogueOpen, setDialogueOpen] = useState(false);
+
+  useEffect(() => {
+    if (!dialogueOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDialogueOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [dialogueOpen]);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -167,14 +185,32 @@ export function ARNpcModel({ label = 'AI 导览员已进入 3D 模式', speaking
   }, []);
 
   return (
-    <aside className={`ar-npc-model${loaded ? ' is-loaded' : ''}${failed ? ' is-failed' : ''}${speaking ? ' is-speaking' : ''}`} aria-label={label}>
-      <div className="ar-npc-model__stage" ref={mountRef}>
-        {!loaded && <img className="ar-npc-model__sprite" src={NPC_FALLBACK_IMAGE} alt="" />}
-      </div>
-      <div className="ar-npc-model__caption">
-        <b>{failed ? '3D 模型暂未加载' : loaded ? '3D 导览员' : '导览员正在进入 3D'}</b>
-        <span>{failed ? '先使用 2D 引导继续体验' : speaking ? '讲解中 · 跳舞挥手' : '识别成功后跟随点位讲解'}</span>
-      </div>
-    </aside>
+    <>
+      <aside className={`ar-npc-model${loaded ? ' is-loaded' : ''}${failed ? ' is-failed' : ''}${speaking ? ' is-speaking' : ''}`} aria-label={label}>
+        <button type="button" className="ar-npc-model__trigger" onClick={() => setDialogueOpen(true)} aria-haspopup="dialog">
+          <div className="ar-npc-model__stage" ref={mountRef}>
+            {!loaded && <img className="ar-npc-model__sprite" src={NPC_FALLBACK_IMAGE} alt="" />}
+          </div>
+          <div className="ar-npc-model__caption">
+            <b>{failed ? '3D 模型暂未加载' : loaded ? '点击 NPC 对话' : '导览员正在进入 3D'}</b>
+            <span>{failed ? '点击打开文字讲解' : '点我查看当前点位讲解'}</span>
+          </div>
+        </button>
+      </aside>
+      {dialogueOpen && createPortal(
+        <div className="npc-dialog" role="presentation" onClick={() => setDialogueOpen(false)}>
+          <section className="npc-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="npc-dialog-title" onClick={(event) => event.stopPropagation()}>
+            <img src={NPC_FALLBACK_IMAGE} alt="3D 导览员" />
+            <div>
+              <span>NPC 导览讲解</span>
+              <h2 id="npc-dialog-title">{dialogueTitle}</h2>
+              <p>{dialogue}</p>
+              <button type="button" onClick={() => setDialogueOpen(false)}>知道了</button>
+            </div>
+          </section>
+        </div>,
+        document.body
+      )}
+    </>
   );
 }

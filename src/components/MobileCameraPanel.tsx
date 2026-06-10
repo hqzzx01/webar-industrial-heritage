@@ -27,7 +27,7 @@ export function MobileCameraPanel({ title, children }: Props) {
         aria-controls="mobile-camera-drawer"
         onClick={() => setOpen(true)}
       >
-        内容
+        ☰ 内容
       </button>
       <button
         type="button"

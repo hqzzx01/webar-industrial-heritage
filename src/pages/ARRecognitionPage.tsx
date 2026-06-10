@@ -22,7 +22,11 @@ export function ARRecognitionPage() {
           <b>园区外部总览</b>
           <p>这里先展示主流程 1-5。进入厂房后，请扫描白膜内部厂房识别点，打开 6-10 内部结构总览。</p>
         </div>
-        <ARNpcModel label="白模识别成功后的 3D NPC 导览员" />
+        <ARNpcModel
+          label="白模识别成功后的 3D NPC 导览员"
+          dialogueTitle="园区外部总览"
+          dialogue="白模识别成功。请点击画面中的 1-5 点位编号进入对应故事，也可以打开右侧内容面板选择点位。"
+        />
         <div className="floating-point-layer">
           {externalPoints.map((point, index) => (
             <Link
