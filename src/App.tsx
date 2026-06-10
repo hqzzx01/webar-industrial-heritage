@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AppHeader } from './components/AppHeader';
 import { BottomNav } from './components/BottomNav';
 import { NpcGuide } from './components/NpcGuide';
+import { LaunchGate } from './components/LaunchGate';
 import { ARRecognitionPage } from './pages/ARRecognitionPage';
 import { ARStoryPage } from './pages/ARStoryPage';
 import { CheckinPage } from './pages/CheckinPage';
@@ -15,7 +17,9 @@ import { ScanPage } from './pages/ScanPage';
 import { SharePage } from './pages/SharePage';
 
 export function App() {
+  const [hasEntered, setHasEntered] = useState(false);
   const location = useLocation();
+  const isMemoryCardPage = location.pathname === '/memory-card';
   const isCameraMode = ['/scan', '/ar-recognition', '/ar-factory-interior'].includes(location.pathname)
     || location.pathname.startsWith('/ar-story')
     || location.pathname.startsWith('/checkin');
@@ -23,8 +27,12 @@ export function App() {
     || location.pathname === '/ar-factory-interior'
     || location.pathname.startsWith('/ar-story');
 
+  if (!hasEntered) {
+    return <LaunchGate onEnter={() => setHasEntered(true)} />;
+  }
+
   return (
-    <div className={isCameraMode ? 'app app--camera' : 'app'}>
+    <div className={`${isCameraMode ? 'app app--camera' : 'app'}${isMemoryCardPage ? ' app--memory-card' : ''}`}>
       {!isCameraMode && <AppHeader />}
       <main className="app-main">
         <Routes>

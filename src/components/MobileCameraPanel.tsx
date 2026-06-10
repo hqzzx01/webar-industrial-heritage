@@ -29,19 +29,23 @@ export function MobileCameraPanel({ title, children }: Props) {
       >
         ☰ 内容
       </button>
-      <button
-        type="button"
-        className="mobile-camera-panel__backdrop"
-        aria-label="关闭侧边栏"
-        onClick={() => setOpen(false)}
-      />
-      <aside id="mobile-camera-drawer" className="mobile-camera-panel__drawer" aria-hidden={!open}>
-        <header>
-          <b>{title}</b>
-          <button type="button" onClick={() => setOpen(false)} aria-label="关闭侧边栏">关闭</button>
-        </header>
-        <div className="mobile-camera-panel__content">{children}</div>
-      </aside>
+      {open && (
+        <>
+          <button
+            type="button"
+            className="mobile-camera-panel__backdrop"
+            aria-label="关闭侧边栏"
+            onClick={() => setOpen(false)}
+          />
+          <aside id="mobile-camera-drawer" className="mobile-camera-panel__drawer">
+            <header>
+              <b>{title}</b>
+              <button type="button" onClick={() => setOpen(false)} aria-label="关闭侧边栏">关闭</button>
+            </header>
+            <div className="mobile-camera-panel__content">{children}</div>
+          </aside>
+        </>
+      )}
     </div>
   );
 }

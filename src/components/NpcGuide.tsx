@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { npcGuideByRoute } from '../data/stories';
 
@@ -30,14 +31,39 @@ function getGuide(pathname: string) {
 export function NpcGuide({ compact = false }: Props) {
   const { pathname } = useLocation();
   const guide = getGuide(pathname);
+  const [messageVisible, setMessageVisible] = useState(true);
+  const hideTimerRef = useRef<number | null>(null);
+
+  const scheduleHide = () => {
+    if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = window.setTimeout(() => setMessageVisible(false), 5000);
+  };
+
+  useEffect(() => {
+    setMessageVisible(true);
+    scheduleHide();
+    return () => {
+      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    };
+  }, [pathname]);
+
+  const showMessage = () => {
+    setMessageVisible(true);
+    scheduleHide();
+  };
 
   return (
-    <aside className={compact ? 'npc-guide npc-guide--compact' : 'npc-guide'} aria-label="NPC 引导">
-      <img src={poses[guide.pose]} alt="炉光记忆引导员" />
-      <div className="npc-bubble">
-        <span>{guide.mood}</span>
-        <p>{guide.message}</p>
-      </div>
+    <aside className={`${compact ? 'npc-guide npc-guide--compact' : 'npc-guide'}${messageVisible ? ' is-talking' : ''}`} aria-label="NPC 引导">
+      <button type="button" className="npc-guide__trigger" onClick={showMessage} aria-label="打开 NPC 引导对话">
+        <img src={poses[guide.pose]} alt="炉光记忆引导员" />
+        <span>点我讲解</span>
+      </button>
+      {messageVisible && (
+        <div className="npc-bubble" aria-live="polite">
+          <span>{guide.mood}</span>
+          <p>{guide.message}</p>
+        </div>
+      )}
     </aside>
   );
 }

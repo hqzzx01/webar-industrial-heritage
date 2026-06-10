@@ -22,6 +22,13 @@ export function ARNpcModel({
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const [dialogueOpen, setDialogueOpen] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
+
+  useEffect(() => {
+    setIntroVisible(true);
+    const timer = window.setTimeout(() => setIntroVisible(false), 5000);
+    return () => window.clearTimeout(timer);
+  }, [dialogueTitle, dialogue]);
 
   useEffect(() => {
     if (!dialogueOpen) return;
@@ -191,10 +198,12 @@ export function ARNpcModel({
           <div className="ar-npc-model__stage" ref={mountRef}>
             {!loaded && <img className="ar-npc-model__sprite" src={NPC_FALLBACK_IMAGE} alt="" />}
           </div>
-          <div className="ar-npc-model__caption">
-            <b>{failed ? '3D 模型暂未加载' : loaded ? '点击 NPC 对话' : '导览员正在进入 3D'}</b>
-            <span>{failed ? '点击打开文字讲解' : '点我查看当前点位讲解'}</span>
-          </div>
+          {introVisible && (
+            <div className="ar-npc-model__caption" aria-live="polite">
+              <b>{dialogueTitle}</b>
+              <span>{dialogue}</span>
+            </div>
+          )}
         </button>
       </aside>
       {dialogueOpen && createPortal(
