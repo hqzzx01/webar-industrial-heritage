@@ -6,11 +6,12 @@ type Props = {
 };
 
 const preloadAssets = [
-  '/assets/backgrounds/heritage-points.png',
-  '/assets/backgrounds/hero-generated.png',
-  '/assets/images/npc/scan.png',
+  '/assets/backgrounds/launch-industrial-ar.webp',
   '/assets/images/glow-particle.png'
 ];
+
+const minimumLoadingTime = 1800;
+const maximumLoadingTime = 3200;
 
 const loadingSteps = [
   '正在唤醒工业遗产记忆...',
@@ -29,6 +30,9 @@ export function LaunchGate({ onEnter }: Props) {
     let animationFrame = 0;
     const startedAt = performance.now();
     let assetsReady = false;
+    const loadingTimeout = window.setTimeout(() => {
+      assetsReady = true;
+    }, maximumLoadingTime);
 
     Promise.all(preloadAssets.map((src) => new Promise<void>((resolve) => {
       const image = new Image();
@@ -42,8 +46,8 @@ export function LaunchGate({ onEnter }: Props) {
     const update = (now: number) => {
       if (!active) return;
       const elapsed = now - startedAt;
-      const timedProgress = Math.min(94, 3 + (elapsed / 2800) * 91);
-      const nextProgress = assetsReady && elapsed >= 2200 ? 100 : timedProgress;
+      const timedProgress = Math.min(98, 3 + (elapsed / minimumLoadingTime) * 95);
+      const nextProgress = assetsReady && elapsed >= minimumLoadingTime ? 100 : timedProgress;
       setProgress(Math.round(nextProgress));
       if (nextProgress < 100) animationFrame = window.requestAnimationFrame(update);
     };
@@ -51,6 +55,7 @@ export function LaunchGate({ onEnter }: Props) {
     animationFrame = window.requestAnimationFrame(update);
     return () => {
       active = false;
+      window.clearTimeout(loadingTimeout);
       window.cancelAnimationFrame(animationFrame);
     };
   }, []);
@@ -87,7 +92,7 @@ export function LaunchGate({ onEnter }: Props) {
           <div className="launch-runner" aria-label={`启动进度 ${progress}%`}>
             <div className="launch-runner__track">
               <i style={{ width: `${progress}%` }} />
-              <img style={{ left: `${progress}%` }} src="/assets/images/npc/scan.png" alt="正在奔跑的 NPC 导览员" />
+              <img style={{ left: `${progress}%` }} src="/assets/images/npc/scan-launch.webp" alt="正在奔跑的 NPC 导览员" />
             </div>
           </div>
           <button type="button" disabled={!ready} onClick={onEnter}>

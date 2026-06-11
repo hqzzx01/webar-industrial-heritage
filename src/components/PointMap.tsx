@@ -14,7 +14,7 @@ export function PointMap({ area = 'all' }: Props) {
 
   return (
     <div className="point-map">
-      <img src="/assets/backgrounds/heritage-points.png" alt="工业遗产白模点位图" />
+      <img src="/assets/backgrounds/heritage-points.webp" alt="工业遗产白模点位图" />
       {filtered.map((point) => {
         const status = checked.includes(point.id) ? 'checked' : current === point.id ? 'current' : visited.includes(point.id) ? 'visited' : 'idle';
         const flowNumber = getMainFlowNumber(point.id);

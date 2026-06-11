@@ -18,7 +18,7 @@ export type Point = {
   mapPosition: { x: number; y: number };
 };
 
-export const pointImage = '/assets/backgrounds/heritage-points.png';
+export const pointImage = '/assets/backgrounds/heritage-points.webp';
 export const heroImage = '/assets/backgrounds/hero-generated.png';
 
 export const points: Point[] = [
