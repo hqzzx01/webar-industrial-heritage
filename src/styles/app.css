@@ -1244,6 +1244,96 @@ canvas {
   inset: 0;
 }
 
+.heritage-overview-model {
+  pointer-events: none;
+  position: absolute;
+  left: 55%;
+  top: 55%;
+  z-index: 5;
+  width: min(900px, 70vw);
+  height: min(620px, 72vh);
+  min-width: 520px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 26px 42px rgba(0, 0, 0, 0.46));
+}
+
+.heritage-overview-model__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.heritage-overview-model canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 320ms ease, transform 420ms ease;
+}
+
+.heritage-overview-model.is-loaded canvas {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.heritage-overview-model__point {
+  pointer-events: auto;
+  position: absolute;
+  z-index: 14;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255, 255, 255, 0.94);
+  border-radius: 50%;
+  background: #8c1515;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: 900;
+  text-decoration: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.18), 0 10px 26px rgba(0, 0, 0, 0.42);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.heritage-overview-model__point:hover,
+.heritage-overview-model__point:focus-visible {
+  background: #f97316;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.heritage-overview-model__point:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.heritage-overview-model__caption {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  display: grid;
+  gap: 2px;
+  min-width: 220px;
+  padding: 10px 14px;
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.72);
+  color: #fff4df;
+  text-align: center;
+  transform: translateX(-50%);
+  backdrop-filter: blur(10px);
+}
+
+.heritage-overview-model__caption b {
+  color: #bae6fd;
+}
+
+.heritage-overview-model__caption span {
+  color: rgba(255, 245, 223, 0.74);
+  font-size: 12px;
+}
+
 .ar-npc-model {
   pointer-events: auto;
   position: absolute;
@@ -2751,6 +2841,27 @@ canvas {
     min-width: 280px;
   }
 
+  .heritage-overview-model {
+    left: 48%;
+    top: 54%;
+    width: min(94vw, 620px);
+    height: min(54vh, 440px);
+    min-width: 280px;
+  }
+
+  .heritage-overview-model__point {
+    width: 36px;
+    height: 36px;
+    border-width: 2px;
+    font-size: 14px;
+  }
+
+  .heritage-overview-model__caption {
+    bottom: 4px;
+    min-width: 190px;
+    padding: 8px 10px;
+  }
+
   .factory-stop b {
     width: 34px;
     height: 34px;
@@ -2884,6 +2995,17 @@ canvas {
 
   .factory-page .ar-npc-model__stage {
     height: 158px;
+  }
+
+  .recognition-page .heritage-overview-model {
+    left: 50%;
+    top: 47%;
+    width: 100vw;
+    height: min(46vh, 390px);
+  }
+
+  .recognition-page .heritage-overview-model__caption span {
+    display: none;
   }
 
   .npc-dialog__panel {
@@ -3073,6 +3195,19 @@ canvas {
     width: min(76vw, 720px);
     height: min(74vh, 390px);
     min-width: 460px;
+  }
+
+  .heritage-overview-model {
+    left: 47%;
+    top: 55%;
+    width: min(76vw, 760px);
+    height: min(76vh, 410px);
+    min-width: 460px;
+  }
+
+  .heritage-overview-model__caption {
+    bottom: 0;
+    padding: 6px 9px;
   }
 
   .factory-stop span {

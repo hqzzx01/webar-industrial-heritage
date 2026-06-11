@@ -1,5 +1,6 @@
 node_modules/
 dist/
+outputs/
 
 .env
 .env.local
@@ -10,6 +11,7 @@ sdk_other/
 
 *.zip
 *.fbx
+source-assets/3D/555-original.glb
 
 firebase-debug.log
 chrome-debug.log
